@@ -1,0 +1,167 @@
+html {
+	width: 100%;
+	height: 100%;
+}
+
+body 
+{
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-family: 'Roboto Mono', sans-serif;
+	width: 100%;
+	height: 100%;
+}
+
+.card-container 
+{	
+	position: fixed;
+	top: -100%;
+	left: 0;
+    width: 100%;
+	height: 100%;
+	background-color: #ffd139;
+	z-index: 500;
+}
+
+.level
+{
+	font-size: 18px;
+	color: rgba(0, 0, 0, 0.4);
+	padding: 40px 40px 20px 40px;
+	text-align: center;
+}
+
+.card 
+{
+	position: absolute;
+	top: 50%;
+	margin-top: -108px;
+	text-align: center;
+	width: 100%;
+}
+
+.card .text {
+	font-size: 25px;
+}
+
+.card .challenge {
+	font-size: 42px;
+}
+
+.card .time 
+{
+	font-size: 21px;
+	margin-bottom: 40px;
+}
+
+.button
+{
+	position: relative;
+	background-color: rgba(0, 0, 0, 0);
+	background-repeat: no-repeat;
+	
+	cursor: pointer;
+	overflow: hidden;
+	border: 0;
+	color: white;
+	outline: none;
+	
+	font-family: "Roboto Mono", sans-serif;
+	font-size: 18px;
+	font-weight: 400;
+}
+
+.button.button-large 
+{
+	height: 58px;
+    width: 200px;
+    
+    padding-top: 0 8px 0 9px;
+	
+	background-size: 400px 142px;	
+	background-image: url("../img/buttons_large.svg");	
+}
+
+.button.button-small
+{
+    height: 50px;
+    width: 47px;
+	
+	padding: 0 3px 18px 6px;
+	
+	vertical-align: top;
+	
+	background-size: 94px 339px;
+	background-image: url("../img/buttons_small.svg");
+}
+
+.button span
+{
+	display: block;
+	width: 100%;
+	position: absolute;
+	top: 9px;
+	left: 0;	
+	text-align: center;
+}
+
+.button.button-small span {
+	top: 6px;
+}
+
+.button.button-large.button-green {
+	background-position: 0 0;
+}
+
+.button.button-large.button-yellow {
+	background-position: 0 -71px;
+}
+
+.button.button-small.button-gray {
+	background-position: 0 -280px;	
+}
+
+.button.button-small.button-close {
+	background-position: 0 -56px;	
+}
+
+.topbar 
+{
+	background-color: #ffd139;
+	box-shadow: 0px 5px 0px 1px rgba(0, 0, 0, 0.15);
+	width: 100%;
+	padding: 22px 50px 22px 22px;
+}
+
+.topbar #topbar-text
+{
+	color: rgba(0, 0, 0, 0.4);
+	display: inline-block;
+}
+
+.topbar #clock
+{
+	position: absolute;
+	top: 18px;
+	margin: auto auto;
+	left: 0;
+	right: 0;
+	font-family: 'Roboto Mono', monospace;
+	text-align: center;
+}
+
+.topbar #clock #clock-time
+{
+	display: inline-block;
+	background-color: white;
+	padding: 4px 14px;
+	box-shadow: inset 1px 1px 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.topbar #topbar-buttons
+{
+    right: 15px;
+    top: 12px;
+    position: absolute;
+}

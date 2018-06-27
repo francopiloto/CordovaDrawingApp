@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DrawingApp</title>
+		
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		
+		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla:700,400|Roboto+Mono:400,300">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+		
+		<link type="text/css" rel="stylesheet" href="css/draw.css">
+		
+		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+		<script type=""text/javascript src="js/draw.js"></script>
+	</head>
+	
+	<body>
+		<div class="home">
+			<div class="card">
+				<button class="button button-large button-yellow" id="new-card"><span>Let's Draw!</span></button>
+			</div>
+		</div>
+		
+		<div class="canvas">
+			<div class="topbar">
+				<div id="topbar-text">Draw: eraser</div>
+				<div id="clock" class="text-blink">
+					<div id="clock-time">00:00</div>
+				</div>
+				<div id="topbar-buttons">
+					<button class="button button-small button-gray " id="button-clear">
+						<span class="fas fa-eraser"></span>
+					</button>
+					<button class="button button-small button-gray " id="button-skip">
+						<span class="fas fa-forward"></span>
+					</button>
+					<button class="button button-small button-close">
+					</button>
+				</div>
+			</div>	
+		</div>
+		
+		<div class="card-container">
+			<div class="level">Desenho 1/6</div>
+
+			<div class="card">
+				<div class="card-text">
+					<div class="text">Desenhe</div>
+					<div class="challenge">estetoscópio</div>
+					<div class="time">em menos de 20 segundos</div>
+
+					<button class="button button-large button-green" id="gotit"><span>Got It!</span></button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
