@@ -46,6 +46,7 @@ $().ready(function()
 	});
 	
 	$('.canvas').hide();
+	$('.popup-wrapper').hide();
 	
 	// slide down the card to show the new challenge
 	$('#new-card').click(function() {
@@ -63,6 +64,25 @@ $().ready(function()
 	
 	$('#button-clear').on('click', function() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
+	});
+	
+	$('#button-skip').on('click', function() {
+		$('.card-container').animate({top: '0'}, 400);
+	});
+	
+	$('.button-close').on('click', function() {
+		$('.popup-wrapper').show();
+	});
+	
+	$('#popup-quit-cancel').on('click', function() {
+		$('.popup-wrapper').hide();
+	});
+	
+	$('#popup-quit-quit').on('click', function() 
+	{
+		$('.popup-wrapper').hide();
+		$('.canvas').hide();
+		$('.home').show();
 	});
 	
 	initGraphics();
