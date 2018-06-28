@@ -20,7 +20,7 @@ $().ready(function()
 // setup UI behavior for all buttons
 function setupButtonBehavior()
 {
-	$('.button').on('mousedown', function()
+	$('.button').on('mousedown touchstart', function()
 	{
 		var button = $(this);
 		
@@ -34,7 +34,7 @@ function setupButtonBehavior()
 		}
 	});
 	
-	$(window).on('mouseup', function()
+	$(window).on('mouseup touchend', function()
 	{
 		$('.button').each(function()
 		{
@@ -94,17 +94,53 @@ function initGraphics()
 	ctx.lineJoin = 'round';
 }
 
-function setupDrawingEvents()
+function onMouseDown(e)
 {
-	$(canvas).on('mousedown', function(e)
+	var pos = getMousePosition(e);
+
+	ctx.beginPath();
+	ctx.moveTo(pos.x, pos.y);
+	
+	isMouseDown = true;
+	isClick = true;
+}
+
+function onMouseMove(e)
+{
+	if (!isMouseDown) {
+		return;
+	}
+	
+	var pos = getMousePosition(e);
+
+	ctx.lineTo(pos.x, pos.y);
+	ctx.stroke();
+
+	isClick = false;
+}
+
+function onMouseUp(e)
+{
+	isMouseDown = false;
+		
+	if (isClick)
 	{
+		isClick = false;
 		var pos = getMousePosition(e);
 
-		ctx.beginPath();
-		ctx.moveTo(pos.x, pos.y);
-		
-		isMouseDown = true;
-		isClick = true;
+		ctx.arc(pos.x, pos.y, ctx.lineWidth, 0, Math.PI * 2, true);
+		ctx.fill();
+	}
+}
+
+function setupDrawingEvents()
+{
+	$(canvas)
+	.on('mousedown', function(e) {
+		onMouseDown(e);
+	})
+	.on('touchstart', function(e) {
+		onMouseDown(e.originalEvent.touches[0]);
 	})
 	.on('mouseenter', function(e)
 	{
@@ -116,31 +152,21 @@ function setupDrawingEvents()
 			ctx.moveTo(pos.x, pos.y);
 		}  
 	})
-	.on('mousemove', function(e) 
+	.on('mousemove', function(e) {
+		onMouseMove(e);
+	})
+	.on('touchmove', function(e) 
 	{
-		if (isMouseDown)
-		{
-			var pos = getMousePosition(e);
-
-			ctx.lineTo(pos.x, pos.y);
-			ctx.stroke();
-
-			isClick = false;
-		}
+		e.preventDefault();
+		onMouseMove(e.originalEvent.touches[0]);
 	});
 	
-	$(window).on('mouseup', function(e)
-	{
-		isMouseDown = false;
-		
-		if (isClick)
-		{
-			isClick = false;
-			var pos = getMousePosition(e);
-
-			ctx.arc(pos.x, pos.y, ctx.lineWidth, 0, Math.PI * 2, true);
-			ctx.fill();
-		}
+	$(window)
+	.on('mouseup', function(e) {
+		onMouseUp(e);		
+	})
+	.on('touchend', function(e)	{
+		onMouseUp(e.originalEvent.touches[0]);	
 	})
 	.on('resize', function()
 	{

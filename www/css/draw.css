@@ -211,6 +211,9 @@ body
     padding: 0 30px;
 }
 
+.card-results {
+	overflow: scroll;
+}
 
 .card-results .wrapper
 {
@@ -221,7 +224,7 @@ body
     width: 100%;
     max-width: 910px;
     margin: 0 auto;
-	text-align: center;
+	text-align: center;	
 }
 
 .card-results .headline 
