@@ -12,7 +12,7 @@
 		<link type="text/css" rel="stylesheet" href="css/draw.css">
 		
 		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-		<script type=""text/javascript src="js/draw.js"></script>
+		<script type="text/javascript" src="js/draw.js"></script>
 	</head>
 	
 	<body>
@@ -24,7 +24,7 @@
 		
 		<div class="canvas">
 			<div class="topbar">
-				<div id="topbar-text">Draw: eraser</div>
+				<div id="topbar-text"></div>
 				<div id="clock" class="text-blink">
 					<div id="clock-time">00:00</div>
 				</div>
@@ -43,14 +43,14 @@
 			<canvas id="buffer" width="400" height="300" style="display:none;"></canvas>
 		</div>
 		
-		<div class="card-container">
-			<div class="level">Desenho 1/6</div>
+		<div class="card-container card-challenge">
+			<div class="level"></div>
 
 			<div class="card">
 				<div class="card-text">
-					<div class="text">Desenhe</div>
-					<div class="challenge">estetoscópio</div>
-					<div class="time">em menos de 20 segundos</div>
+					<div class="text">Draw</div>
+					<div class="challenge"></div>
+					<div class="time">in under 20 seconds</div>
 
 					<button class="button button-large button-green" id="gotit"><span>Got It!</span></button>
 				</div>
@@ -67,5 +67,60 @@
 			</div>
 		</div>
 		
+		<div class="card-container card-results">
+			<div class="wrapper">
+				<div class="headline ">
+					<div id="timesup-title">Well drawn!</div>
+				</div>
+				
+				<div class="card-row">
+					<div>
+						<div class="timesup-round button button-drawing">
+							<button class="timesup-drawing">
+								<div class="timesup-drawing-status">✕ cooler</div>
+								<svg width="130" height="70" class="svg-margin-25"></svg>
+							</button>
+						</div>
+						<div class="timesup-round button button-drawing">
+							<button class="timesup-drawing">
+								<div class="timesup-drawing-status">✕ paper clip</div>
+								<svg width="130" height="70" class="svg-margin-25"></svg>
+							</button>
+						</div>
+						<div class="timesup-round button button-drawing">
+							<button class="timesup-drawing">
+								<div class="timesup-drawing-status">✕ tiger</div>
+								<svg width="130" height="70" class="svg-margin-25"></svg>
+							</button>
+						</div>
+						<div class="timesup-round button button-drawing">
+							<button class="timesup-drawing">
+								<div class="timesup-drawing-status">✕ wheel</div>
+								<svg width="130" height="70" class="svg-margin-25"></svg>
+							</button>
+						</div>
+						<div class="timesup-round button button-drawing">
+							<button class="timesup-drawing">
+								<div class="timesup-drawing-status">✓ tooth</div>
+								<svg width="130" height="70" class="svg-margin-25"></svg>
+							</button>
+						</div>
+						<div class="timesup-round button button-drawing">
+							<button>
+								<div class="timesup-drawing-status">✓ tooth</div>
+								<svg width="130" height="70" class="svg-margin-25">
+								<path d="M64.99999999999955 35 L64.99999999999955 35" stroke="#000000" stroke-width="1.8571428571428572" stroke-linecap="round" fill="none"></path>
+								</svg>
+							</button>
+						</div>
+					</div>
+				</div>
+				<div class="card-row" id="portfolio">
+					<div class="card-text">
+						<button id="button-timesup-play" class="button button-large button-green"><span class="center">Play Again</span></button>
+					</div>
+				</div>
+			</div>
+		</div>		
 	</body>
 </html>
