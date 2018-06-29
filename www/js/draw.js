@@ -1,19 +1,17 @@
 
-var canvas;
-var buffer;
-var ctx;
-var isMouseDown;
-var isClick;
+var drawing;
+var polyline;
 var attempts;
 var timer;
+var svgs;
+const maxAttempts = 6;
 			
 $().ready(function() 
 {
 	setupButtonBehavior();
 	setupAppFlow();
-	initGraphics();
-	setupDrawingEvents();
 	setupDrawingControls();
+	
 	startNewGame();
 });
 
@@ -83,82 +81,30 @@ function setupAppFlow()
 // initialize graphics context and events
 function initGraphics()
 {
-	canvas = document.getElementById('canvas');
-	buffer = document.getElementById('buffer');
+	$('#drawing').html('');
 	
-	ctx = canvas.getContext('2d');
-	isMouseDown = false;
-	isClick = false;
+	drawing = SVG('drawing');
 	
-	ctx.fillStyle = ctx.strokeStyle = '#000000';	
-	ctx.lineJoin = 'round';
-}
-
-function onMouseDown(e)
-{
-	var pos = getMousePosition(e);
-
-	ctx.beginPath();
-	ctx.moveTo(pos.x, pos.y);
-	
-	isMouseDown = true;
-	isClick = true;
-}
-
-function onMouseMove(e)
-{
-	if (!isMouseDown) {
-		return;
-	}
-	
-	var pos = getMousePosition(e);
-
-	ctx.lineTo(pos.x, pos.y);
-	ctx.stroke();
-
-	isClick = false;
-}
-
-function onMouseUp(e)
-{
-	isMouseDown = false;
-		
-	if (isClick)
-	{
-		isClick = false;
-		var pos = getMousePosition(e);
-
-		ctx.arc(pos.x, pos.y, ctx.lineWidth, 0, Math.PI * 2, true);
-		ctx.fill();
-	}
-}
-
-function setupDrawingEvents()
-{
-	$(canvas)
-	.on('mousedown', function(e) {
+	drawing.on('mousedown', function(e) {
 		onMouseDown(e);
-	})
-	.on('touchstart', function(e) {
+	});
+	
+	drawing.on('touchstart', function(e) {
 		onMouseDown(e.originalEvent.touches[0]);
-	})
-	.on('mouseenter', function(e)
-	{
-		if (isMouseDown)
-		{
-			var pos = getMousePosition(e);
-
-			ctx.beginPath();
-			ctx.moveTo(pos.x, pos.y);
-		}  
-	})
-	.on('mousemove', function(e) {
+	});
+	
+	drawing.on('mousemove', function(e) {
 		onMouseMove(e);
-	})
-	.on('touchmove', function(e) 
+	});
+	
+	drawing.on('touchmove', function(e) 
 	{
 		e.preventDefault();
 		onMouseMove(e.originalEvent.touches[0]);
+	});
+	
+	drawing.on('mouseup', function(e) {
+		onMouseUp(e);
 	});
 	
 	$(window)
@@ -169,29 +115,39 @@ function setupDrawingEvents()
 		onMouseUp(e.originalEvent.touches[0]);	
 	})
 	.on('resize', function()
-	{
-		// update canvas size to occupy the whole screen
+	{		
 		var w = $(window).width();
-		var h = $(window).height();
+		var h = $(window).height() - $('.topbar').height();
 		
-		// avoid losing the drowing whe the canvas is resized
-		buffer.width = w;
-		buffer.height = h;
-		buffer.getContext('2d').drawImage(canvas, 0, 0);
-		
-		canvas.width  = w;
-		canvas.height = h;
-		canvas.getContext('2d').drawImage(buffer, 0, 0);
-		
-		ctx.lineWidth = 6;
+		drawing.size(w, h);
 	})
 	.resize();
+}
+
+function onMouseDown(e)
+{
+	polyline = drawing.polyline().attr({stroke: '#000000', 'stroke-width': 6, 'fill-opacity': 0});
+	polyline.draw(e);
+}
+
+function onMouseMove(e)
+{
+	if (polyline) {
+		polyline.draw('point', e);
+	}
+}
+
+function onMouseUp(e) 
+{
+	if (polyline) {
+		polyline.draw('stop', e);
+	}
 }
 
 function setupDrawingControls()
 {
 	$('#button-clear').on('click', function() {
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
+		initGraphics();
 	});
 	
 	$('#button-skip').on('click', function() {
@@ -206,6 +162,7 @@ function setupDrawingControls()
 function startNewGame()
 {
 	attempts = 0;
+	svgs = [];
 	
 	$('#button-skip').show();
 	$('.card-container').hide();
@@ -214,28 +171,27 @@ function startNewGame()
 	$('.home').show();
 }
 
-// get current mouse position on canvas
-function getMousePosition(e)
-{
-	var rect = canvas.getBoundingClientRect();
-
-	return {
-		x: e.clientX - rect.left - canvas.clientLeft,
-		y: e.clientY - rect.top - canvas.clientTop
-	};
-}
-
 function newChallenge()
 {
-	++attempts;
+	if (attempts > 0) 
+	{
+		var svg = $('#drawing svg');
+		var obj = {};
+		obj.w = svg.width();
+		obj.h = svg.height();
+		obj.data = svg.html();
+		svgs[attempts - 1] = obj;
+	}
 	
-	if (attempts > 6) 
+	++attempts;	
+	
+	if (attempts > maxAttempts) 
 	{
 		showResults();
 		return;
 	}
 	
-	$('.card-challenge .level').html('Drawing ' + attempts + '/6');
+	$('.card-challenge .level').html('Drawing ' + attempts + '/' + maxAttempts);
 	
 	// TODO get challenge from the database
 	var challenge = 'new challenge from database';
@@ -251,12 +207,10 @@ function startNewDrawing()
 	if (timer) {
 		clearInterval(timer);
 	}
+		
+	initGraphics();
 	
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	isMouseDown = false;
-	isClick = false;
-	
-	if (attempts >= 6) {
+	if (attempts >= maxAttempts) {
 		$('#button-skip').hide();
 	}
 
@@ -295,6 +249,18 @@ function slideUp(card)
 function showResults()
 {
 	// TODO
+	
+	var container = $('.card-results .card-row .container').html('');
+	var template = $('.card-results .template');
+	
+	for (var i = 0; i < maxAttempts; ++i)
+	{
+		var result = template.clone(true);
+		result.removeClass('template');
+		result.find('svg').attr('viewBox','0 0 ' + svgs[i].w + ' ' + svgs[i].h).html(svgs[i].data);
+		
+		container.append(result);
+	}
 	
 	slideDown('.card-results');
 }

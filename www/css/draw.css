@@ -256,6 +256,10 @@ body
     border: 0;
 }
 
+.card-results .timesup-round.template {
+	display: none;
+}
+
 .card-results .timesup-round button div
 {
 	font-size: 13px;
