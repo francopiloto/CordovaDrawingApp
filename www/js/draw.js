@@ -4,10 +4,15 @@ var polyline;
 var attempts;
 var timer;
 var svgs;
+var categories;
 const maxAttempts = 6;
 			
 $().ready(function() 
 {
+	document.addEventListener('deviceready', function(){
+		loadCategories();
+	}, false);
+	
 	setupButtonBehavior();
 	setupAppFlow();
 	setupDrawingControls();
@@ -90,7 +95,7 @@ function initGraphics()
 	});
 	
 	drawing.on('touchstart', function(e) {
-		onMouseDown(e.originalEvent.touches[0]);
+		onMouseDown(e.touches[0]);
 	});
 	
 	drawing.on('mousemove', function(e) {
@@ -100,7 +105,7 @@ function initGraphics()
 	drawing.on('touchmove', function(e) 
 	{
 		e.preventDefault();
-		onMouseMove(e.originalEvent.touches[0]);
+		onMouseMove(e.touches[0]);
 	});
 	
 	drawing.on('mouseup', function(e) {
@@ -112,7 +117,7 @@ function initGraphics()
 		onMouseUp(e);		
 	})
 	.on('touchend', function(e)	{
-		onMouseUp(e.originalEvent.touches[0]);	
+		onMouseUp(e.touches[0]);	
 	})
 	.on('resize', function()
 	{		
@@ -176,12 +181,14 @@ function newChallenge()
 	if (attempts > 0) 
 	{
 		var svg = $('#drawing svg');
-		var obj = {};
+		var obj = svgs[attempts - 1];
+		
 		obj.w = svg.width();
 		obj.h = svg.height();
 		obj.data = svg.html();
-		svgs[attempts - 1] = obj;
-	}
+		
+		save('drawing' + attempts + '.txt', obj.data);
+	}	
 	
 	++attempts;	
 	
@@ -193,8 +200,10 @@ function newChallenge()
 	
 	$('.card-challenge .level').html('Drawing ' + attempts + '/' + maxAttempts);
 	
-	// TODO get challenge from the database
-	var challenge = 'new challenge from database';
+	var obj = {name:'name'};
+	svgs.push(obj);
+	
+	var challenge = selectCategory();
 	
 	$('.challenge').html(challenge);
 	$('.canvas .topbar #topbar-text').html('Draw: ' + challenge);
@@ -244,6 +253,88 @@ function slideUp(card)
 	$(card).animate({top: '-100%'}, 400, function() {
 		$(card).hide();
 	});
+}
+
+function loadCategories()
+{	
+	window.resolveLocalFileSystemURL(cordova.file.applicationDirectory + 'www/categories.txt', 
+		function(fileEntry)
+		{
+			fileEntry.file(function(file) 
+			{
+				var reader = new FileReader();
+				
+				reader.onloadend = function(e) {
+					categories = this.result.split(/\r?\n/);
+				}
+				
+				reader.readAsText(file);
+			});
+		}, 
+		function(e)
+		{
+			console.log('FileSystem Error');
+			console.dir(e);
+		}
+	);
+}
+
+function selectCategory()
+{
+	if (!categories) {
+		return 'error';
+	}
+	
+	var temp = [];
+		
+	for (var i = 0; i < categories.length; ++i) 
+	{
+		var contains = false;
+		
+		for (var j = 0; j < svgs.lenght; ++j) 
+		{
+			if (svgs[j].name == categories[i]) 
+			{
+				contains = true;
+				break;
+			}
+		}
+		
+		if (contains) {
+			continue;
+		}
+		
+		temp.push(categories[i]);
+	}
+	
+	return categories[Math.floor((Math.random() * temp.length))];
+}
+
+function save(filename,data)
+{
+	if (typeof cordova === 'undefined') {
+		return;
+	}
+	
+	var errorCallback = function(error) {
+		alert("ERROR: " + error.code);
+	};
+	
+	var successCallback = function(dir)
+	{
+		dir.getFile(filename, {create: true}, function(fileEntry) 
+		{
+			fileEntry.createWriter(function(fileWriter)
+			{
+				fileWriter.onerror = errorCallback;
+				fileWriter.write(data);
+			},
+			errorCallback);
+		},
+		errorCallback);
+	};
+	
+	window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, successCallback, errorCallback);
 }
 
 function showResults()

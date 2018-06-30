@@ -278,3 +278,53 @@ body
 button:focus {
     outline:none !important;
 }
+
+@media screen and (max-height: 500px), screen and (max-width: 500px)
+{
+    .topbar 
+	{
+        padding: 0 0 0 0;
+        padding-top: 66px;
+        padding-bottom: 15px;
+        text-align: center; 
+	}
+	
+    .topbar #topbar-buttons 
+	{
+		width: 100%;
+		left: 0;
+		right: 0;
+		text-align: left;
+		padding-left: 16px; 
+	}
+	
+	.topbar #topbar-buttons .button-close 
+	{
+		position: absolute;
+		right: 32px; 
+	}
+}
+
+ @media screen and (max-height: 350px), screen and (max-width: 350px)
+ {
+	.topbar #clock 
+	{
+		text-align: left;
+		margin-left: 20px; 
+	}
+	
+	.topbar #topbar-buttons
+	{
+		right: 15px;
+		top: 12px;
+		position: absolute;
+		width: initial;
+		text-align: right; 
+	}
+	
+	.topbar #topbar-buttons .button-close
+	{
+		position: initial;
+		right: initial;
+	} 
+}
