@@ -27,4 +27,5 @@
     <preference name="AndroidPersistentFileLocation" value="Compatibility" />
     <preference name="iosPersistentFileLocation" value="Compatibility" />
     <engine name="android" spec="^7.0.0" />
+    <engine name="ios" spec="^4.5.4" />
 </widget>
