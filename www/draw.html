@@ -2,25 +2,25 @@
 <html>
 	<head>
 		<title>DrawingApp</title>
-		
+
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		
+
 		<link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Karla:700,400|Roboto+Mono:400,300">
 		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-		
+
 		<link type="text/css" rel="stylesheet" href="css/draw.css">
-		
-		
+
+
 	</head>
-	
+
 	<body>
 		<div class="home">
 			<div class="card">
 				<button class="button button-large button-yellow" id="new-card"><span>Let's Draw!</span></button>
 			</div>
 		</div>
-		
+
 		<div class="canvas" style="display:none;">
 			<div class="topbar">
 				<div id="topbar-text"></div>
@@ -40,7 +40,7 @@
 			</div>
 			<div id="drawing"></div>
 		</div>
-		
+
 		<div class="card-container card-challenge" style="display:none;">
 			<div class="level"></div>
 
@@ -54,7 +54,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="popup-wrapper" id="popup-quit" style="display:none;">
 			<div class="popup-box">
 				<div class="popup-text">Are you sure you want to quit?</div>
@@ -64,22 +64,22 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<div class="card-container card-results" style="display:none;">
 			<div class="wrapper">
 				<div class="headline ">
 					<div id="timesup-title">Well drawn!</div>
 				</div>
-				
+
 				<div class="timesup-round button button-drawing template">
 					<button class="timesup-drawing">
 						<div class="timesup-drawing-status"></div>
 						<svg width="130" height="70" class="svg-margin-25"></svg>
 					</button>
 				</div>
-						
+
 				<div class="card-row"><div class="container"></div></div>
-				
+
 				<div class="card-row" id="portfolio">
 					<div class="card-text">
 						<button id="button-timesup-play" class="button button-large button-green"><span class="center">Play Again</span></button>
@@ -92,7 +92,8 @@
 		<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 		<script type="text/javascript" src="js/svg.min.js"></script>
 		<script type="text/javascript" src="js/svg.draw.min.js"></script>
+		<script type="text/javascript" src="js/resemble.js"></script>
 		<script type="text/javascript" src="js/draw.js"></script>
-		
+
 	</body>
 </html>
