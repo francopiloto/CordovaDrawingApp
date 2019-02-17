@@ -362,7 +362,7 @@ function save(filename, data)
 		errorCallback);
 	};
 
-	window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, successCallback, errorCallback);
+	window.resolveLocalFileSystemURL(cordova.file.dataDirectory, successCallback, errorCallback);
 }
 
 function showResults()
